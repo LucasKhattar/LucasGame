@@ -1,3 +1,5 @@
+import java.net.MalformedURLException;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -10,8 +12,8 @@ public class WhosThatPokemon {
 
 	JFrame frame;
 	LucasGamePanel panel;
-	final int width = 800;
-	final int height = 500;
+	final int WIDTH = 800;
+	final int HEIGHT = 500;
 
 	public static void main(String[] args) {
 		WhosThatPokemon pokemon = new WhosThatPokemon();
@@ -19,12 +21,13 @@ public class WhosThatPokemon {
 
 	void setup() {
 		frame.setVisible(true);
-		frame.setSize(width, height);
+		frame.setSize(WIDTH, HEIGHT);
 		frame.add(panel);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
+
 		panel.startGame();
 	}
 }
 
 // Pokemon images
-// http://pokemon.wikia.com/wiki/Category:Generation_I_Pok%C3%A9mon
+// https://img.pokemondb.net/artwork/__________.jpg
