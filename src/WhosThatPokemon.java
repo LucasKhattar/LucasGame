@@ -12,7 +12,7 @@ public class WhosThatPokemon {
 
 	JFrame frame;
 	LucasGamePanel panel;
-	final int WIDTH = 800;
+	final int WIDTH = 850;
 	final int HEIGHT = 500;
 
 	public static void main(String[] args) {
@@ -24,7 +24,7 @@ public class WhosThatPokemon {
 		frame.setSize(WIDTH, HEIGHT);
 		frame.add(panel);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
-
+		frame.addKeyListener(panel);
 		panel.startGame();
 	}
 }

@@ -1,5 +1,7 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -17,15 +19,20 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-public class LucasGamePanel extends JPanel implements ActionListener{
+public class LucasGamePanel extends JPanel implements ActionListener, KeyListener{
 
 	Timer timer;
-	Font titleFont;
-	Font titleFont2;
+	Font titleFont = new Font("Arial", Font.PLAIN, 48);
+	Font titleFont2 = new Font("Arial", Font.PLAIN, 48);;
 	final int MENU_STATE = 0;
 	final int GAME_STATE = 1;
 	final int END_STATE = 2;
 	int currentState = MENU_STATE;
+	String pokemonName = "Charmander";
+	String pokemonName1 = "charmander";
+	String pokemonName2 = "charmander";
+	String pokemonName3 = "charmander";
+	String pokemonName4 = "charmander";
 	void updateMenuState() {
 
 	}
@@ -40,16 +47,32 @@ public class LucasGamePanel extends JPanel implements ActionListener{
 
 	void drawMenuState(Graphics g) {
 		g.setColor(Color.BLUE);
-		g.fillRect(0, 0, 800, 500);
+		g.fillRect(0, 0, 850, 500);
 		g.setColor(Color.BLACK);
 		g.setFont(titleFont);
-		g.drawString("Pokemon Quiz", 500, 200);
+		g.drawString("Pokemon Quiz", 250, 150);
+		g.drawString("Press SPACE To Play", 175, 300);
+		g.drawString("Press S For Settings", 200, 400);
 	}
 
 	void drawGameState(Graphics g) {
+		
 		 super.paintComponent(g);
 	        try {
-				g.drawImage(loadImageFromTheInternet("http://img.pokemondb.net/artwork/charmander.jpg"), 0, 0, this);
+	        	g.setColor(Color.WHITE);
+	    		g.fillRect(0, 0, 850, 500);
+	    		g.setColor(Color.BLACK);
+	    		g.setFont(titleFont);
+	    		g.drawString("Who's That Pokemon?", 200, 100);
+	    		g.drawString(pokemonName, 300, 200);
+	    		Image pokemon1 = loadImageFromTheInternet("http://img.pokemondb.net/artwork/"+pokemonName1+".jpg");
+	    		Image pokemon2 = loadImageFromTheInternet("http://img.pokemondb.net/artwork/"+pokemonName2+".jpg");
+	    		Image pokemon3 = loadImageFromTheInternet("http://img.pokemondb.net/artwork/"+pokemonName3+".jpg");
+	    		Image pokemon4 = loadImageFromTheInternet("http://img.pokemondb.net/artwork/"+pokemonName4+".jpg");
+	    		g.drawImage(pokemon1, 10, 250, 100, 100, this);
+				g.drawImage(pokemon2, 220, 250, 100, 100, this);
+				g.drawImage(pokemon3, 430, 250, 100, 100, this);
+				g.drawImage(pokemon4, 640, 250, 100, 100, this);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -103,5 +126,25 @@ public class LucasGamePanel extends JPanel implements ActionListener{
 		} else if (currentState == END_STATE) {
 			drawEndState(g);
 		}
+	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		// TODO Auto-generated method stub
+		if (e.getKeyCode() == KeyEvent.VK_SPACE) {
+			currentState = GAME_STATE;
+		}
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 }
