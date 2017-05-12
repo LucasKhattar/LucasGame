@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Random;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -33,12 +34,33 @@ public class LucasGamePanel extends JPanel implements ActionListener, KeyListene
 	String pokemonName2 = "charmander";
 	String pokemonName3 = "charmander";
 	String pokemonName4 = "charmander";
+	PokedexManager pokedex = new PokedexManager();
 	void updateMenuState() {
 
 	}
 
 	void updateGameState() {
-			
+		//drawGameState(g);
+		
+		pokemonName1 = pokedex.getPokemon().getName().toLowerCase();
+		pokemonName2 = pokedex.getPokemon().getName().toLowerCase();
+		pokemonName3 = pokedex.getPokemon().getName().toLowerCase();
+		pokemonName4 = pokedex.getPokemon().getName().toLowerCase();
+		int rand = new Random().nextInt(4);
+		if(rand==0){
+			pokemonName = pokemonName1;
+		}
+		if(rand==1){
+			pokemonName = pokemonName2;
+		}
+		if(rand==2){
+			pokemonName = pokemonName3;
+		}
+		if(rand==3){
+			pokemonName = pokemonName4;
+		}
+		pokemonName = pokemonName1.toUpperCase();
+
 	}
 
 	void updateEndState() {
@@ -65,14 +87,15 @@ public class LucasGamePanel extends JPanel implements ActionListener, KeyListene
 	    		g.setFont(titleFont);
 	    		g.drawString("Who's That Pokemon?", 200, 100);
 	    		g.drawString(pokemonName, 300, 200);
+	    		
 	    		Image pokemon1 = loadImageFromTheInternet("http://img.pokemondb.net/artwork/"+pokemonName1+".jpg");
 	    		Image pokemon2 = loadImageFromTheInternet("http://img.pokemondb.net/artwork/"+pokemonName2+".jpg");
 	    		Image pokemon3 = loadImageFromTheInternet("http://img.pokemondb.net/artwork/"+pokemonName3+".jpg");
 	    		Image pokemon4 = loadImageFromTheInternet("http://img.pokemondb.net/artwork/"+pokemonName4+".jpg");
-	    		g.drawImage(pokemon1, 10, 250, 100, 100, this);
-				g.drawImage(pokemon2, 220, 250, 100, 100, this);
-				g.drawImage(pokemon3, 430, 250, 100, 100, this);
-				g.drawImage(pokemon4, 640, 250, 100, 100, this);
+	    		g.drawImage(pokemon1, 10, 250, 150, 150, this);
+				g.drawImage(pokemon2, 220, 250, 150, 150, this);
+				g.drawImage(pokemon3, 430, 250, 150, 150, this);
+				g.drawImage(pokemon4, 640, 250, 150, 150, this);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -87,7 +110,8 @@ public class LucasGamePanel extends JPanel implements ActionListener, KeyListene
 		
 	}
 	void startGame(){
-		timer.start();
+		//timer.start();
+		pokedex.addPokemons();
 	}
 	
 	
@@ -139,6 +163,8 @@ public class LucasGamePanel extends JPanel implements ActionListener, KeyListene
 		// TODO Auto-generated method stub
 		if (e.getKeyCode() == KeyEvent.VK_SPACE) {
 			currentState = GAME_STATE;
+			updateGameState();
+			repaint();
 		}
 	}
 
