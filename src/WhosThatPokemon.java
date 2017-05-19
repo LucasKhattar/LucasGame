@@ -23,9 +23,10 @@ public class WhosThatPokemon {
 		frame.setVisible(true);
 		frame.setSize(WIDTH, HEIGHT);
 		frame.add(panel);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.addKeyListener(panel);
 		panel.startGame();
+		frame.addMouseListener(panel);
 	}
 }
 
