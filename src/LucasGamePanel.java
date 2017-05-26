@@ -10,6 +10,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Random;
+import java.applet.AudioClip;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -17,6 +18,7 @@ import java.awt.Image;
 import javax.imageio.ImageIO;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JApplet;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -38,6 +40,7 @@ public class LucasGamePanel extends JPanel implements ActionListener, KeyListene
 	String pokemonName3 = "charmander";
 	String pokemonName4 = "charmander";
 	int pokemonA;
+	int score = 0;
 	PokedexManager pokedex = new PokedexManager();
 
 	void updateMenuState() {
@@ -48,9 +51,19 @@ public class LucasGamePanel extends JPanel implements ActionListener, KeyListene
 		// drawGameState(g);
 
 		pokemonName1 = pokedex.getPokemon().getName().toLowerCase();
+		
 		pokemonName2 = pokedex.getPokemon().getName().toLowerCase();
+		while(pokemonName1.equals(pokemonName2)){
+			pokemonName2 = pokedex.getPokemon().getName().toLowerCase(); 
+		}
 		pokemonName3 = pokedex.getPokemon().getName().toLowerCase();
+		while(pokemonName3.equals(pokemonName1)||pokemonName3.equals(pokemonName2)){
+			pokemonName3 = pokedex.getPokemon().getName().toLowerCase(); 
+		}
 		pokemonName4 = pokedex.getPokemon().getName().toLowerCase();
+		while(pokemonName4.equals(pokemonName1)||pokemonName4.equals(pokemonName2)||pokemonName4.equals(pokemonName3)){
+			pokemonName4 = pokedex.getPokemon().getName().toLowerCase(); 
+		}
 		int rand = new Random().nextInt(4);
 		if (rand == 0) {
 			pokemonName = pokemonName1;
@@ -106,6 +119,7 @@ public class LucasGamePanel extends JPanel implements ActionListener, KeyListene
 			g.setFont(titleFont);
 			g.drawString("Who's That Pokemon?", 200, 100);
 			g.drawString(pokemonName, 300, 200);
+			g.drawString("Score: "+score, 50, 50);
 			Image pokemon1 = loadImageFromTheInternet("http://img.pokemondb.net/artwork/" + pokemonName1 + ".jpg");
 			Image pokemon2 = loadImageFromTheInternet("http://img.pokemondb.net/artwork/" + pokemonName2 + ".jpg");
 			Image pokemon3 = loadImageFromTheInternet("http://img.pokemondb.net/artwork/" + pokemonName3 + ".jpg");
@@ -128,6 +142,7 @@ public class LucasGamePanel extends JPanel implements ActionListener, KeyListene
 		g.setFont(titleFont);
 		g.drawString("Game Over", 300, 200);
 		g.drawString("Press SPACE To Restart", 150, 300);
+		
 	}
 
 	LucasGamePanel() {
@@ -149,6 +164,11 @@ public class LucasGamePanel extends JPanel implements ActionListener, KeyListene
 
 		// Icon icon = new ImageIcon(image);
 		// return new JLabel(icon)/*;
+	}
+
+	private void playSound(String fileName) {
+		AudioClip sound = JApplet.newAudioClip(getClass().getResource(fileName));
+		sound.play();
 	}
 
 	@Override
@@ -183,7 +203,7 @@ public class LucasGamePanel extends JPanel implements ActionListener, KeyListene
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
-		if (e.getKeyCode() == KeyEvent.VK_SPACE&&currentState != GAME_STATE) {
+		if (e.getKeyCode() == KeyEvent.VK_SPACE && currentState != GAME_STATE) {
 			currentState = GAME_STATE;
 			updateGameState();
 			repaint();
@@ -198,51 +218,62 @@ public class LucasGamePanel extends JPanel implements ActionListener, KeyListene
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		// TODO Auto-generated method stub
-		System.out.println(pokemonA);
-		if (e.getX() >= 10 && e.getX() <= 160 && e.getY() >= 250 && e.getY() <= 400) {
-			if (pokemonA == 1) {
-				JOptionPane.showMessageDialog(null, "Correct!");
-				updateGameState();
-				repaint();
-			} else {
-				JOptionPane.showMessageDialog(null, "Incorrect!");
+		if (currentState == GAME_STATE) {
+			System.out.println(pokemonA);
+			if (e.getX() >= 10 && e.getX() <= 160 && e.getY() >= 250 && e.getY() <= 400) {
+				if (pokemonA == 1) {
+					playSound("correct.wav");
+					score+=1;
+					updateGameState();
+					repaint();
+				} else {
+					playSound("incorrect.wav");
+					score=0;
+					currentState = END_STATE;
+					repaint();
+				}
 			}
-		}
 
-		if (e.getX() >= 220 && e.getX() <= 470 && e.getY() >= 250 && e.getY() <= 400) {
-			if (pokemonA == 2) {
-				JOptionPane.showMessageDialog(null, "Correct!");
-				updateGameState();
-				repaint();
-			} else {
-				JOptionPane.showMessageDialog(null, "Incorrect!");
-				currentState = END_STATE;
-				repaint();
+			if (e.getX() >= 220 && e.getX() <= 370 && e.getY() >= 250 && e.getY() <= 400) {
+				if (pokemonA == 2) {
+					playSound("correct.wav");
+					score+=1;
+					updateGameState();
+					repaint();
+				} else {
+					playSound("incorrect.wav");
+					score=0;
+					currentState = END_STATE;
+					repaint();
+				}
 			}
-		}
 
-		if (e.getX() >= 430 && e.getX() <= 680 && e.getY() >= 250 && e.getY() <= 400) {
-			if (pokemonA == 3) {
-				JOptionPane.showMessageDialog(null, "Correct!");
-				updateGameState();
-				repaint();
-			} else {
-				JOptionPane.showMessageDialog(null, "Incorrect!");
-				currentState = END_STATE;
-				repaint();
+			if (e.getX() >= 430 && e.getX() <= 580 && e.getY() >= 250 && e.getY() <= 400) {
+				if (pokemonA == 3) {
+					playSound("correct.wav");
+					score+=1;
+					updateGameState();
+					repaint();
+				} else {
+					playSound("incorrect.wav");
+					score=0;
+					currentState = END_STATE;
+					repaint();
+				}
 			}
-		}
 
-		if (e.getX() >= 640 && e.getX() <= 890 && e.getY() >= 250 && e.getY() <= 400) {
-			if (pokemonA == 4) {
-				JOptionPane.showMessageDialog(null, "Correct!");
-				updateGameState();
-				repaint();
-			} else {
-				JOptionPane.showMessageDialog(null, "Incorrect!");
-				currentState = END_STATE;
-				repaint();
+			if (e.getX() >= 640 && e.getX() <= 790 && e.getY() >= 250 && e.getY() <= 400) {
+				if (pokemonA == 4) {
+					playSound("correct.wav");
+					score+=1;
+					updateGameState();
+					repaint();
+				} else {
+					playSound("incorrect.wav");
+					score=0;
+					currentState = END_STATE;
+					repaint();
+				}
 			}
 		}
 	}
