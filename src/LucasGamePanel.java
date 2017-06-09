@@ -29,7 +29,7 @@ public class LucasGamePanel extends JPanel implements ActionListener, KeyListene
 
 	Timer timer;
 	Font titleFont = new Font("Arial", Font.PLAIN, 48);
-	Font titleFont2 = new Font("Arial", Font.PLAIN, 48);;
+	Font titleFont2 = new Font("Arial", Font.PLAIN, 16);
 	final int MENU_STATE = 0;
 	final int GAME_STATE = 1;
 	final int END_STATE = 2;
@@ -42,6 +42,8 @@ public class LucasGamePanel extends JPanel implements ActionListener, KeyListene
 	int pokemonA;
 	int score = 0;
 	int gamesPlayed = 0;
+	AudioClip sound1 = JApplet.newAudioClip(getClass().getResource("correct.wav"));
+	AudioClip sound2 = JApplet.newAudioClip(getClass().getResource("incorrect.wav"));
 	PokedexManager pokedex = new PokedexManager();
 
 	void updateMenuState() {
@@ -121,6 +123,9 @@ public class LucasGamePanel extends JPanel implements ActionListener, KeyListene
 			g.setFont(titleFont);
 			g.drawString("Who's That Pokemon?", 200, 100);
 			g.drawString(pokemonName, 300, 200);
+			g.setFont(titleFont2);
+			g.drawString("Correct : Rounds", 30, 30);
+			g.drawString(score+" : "+gamesPlayed, 73, 50);
 			Image pokemon1 = loadImageFromTheInternet("http://img.pokemondb.net/artwork/" + pokemonName1 + ".jpg");
 			Image pokemon2 = loadImageFromTheInternet("http://img.pokemondb.net/artwork/" + pokemonName2 + ".jpg");
 			Image pokemon3 = loadImageFromTheInternet("http://img.pokemondb.net/artwork/" + pokemonName3 + ".jpg");
@@ -137,28 +142,28 @@ public class LucasGamePanel extends JPanel implements ActionListener, KeyListene
 	}
 
 	void drawEndState(Graphics g) {
-		g.setColor(Color.RED);
+		g.setColor(Color.BLUE);
 		g.fillRect(0, 0, 850, 500);
 		g.setColor(Color.BLACK);
 		g.setFont(titleFont);
 		g.drawString("Game Over", 300, 100);
 		g.drawString("Press SPACE To Restart", 150, 200);
 		g.drawString("You Got " + score + " Out Of 15 Correct!", 100, 300);
-		long percent = Math.round(score/15.0*100);
-		if(score>=0&&score<=4){
-			g.drawString(percent+"%! Do You Even Pokemon Bro?", 10, 400);
+		long percent = Math.round(score / 15.0 * 100);
+		if (score >= 0 && score <= 4) {
+			g.drawString(percent + "%! Do You Even Pokemon Bro?", 10, 400);
 		}
-		
-		else if(score>=5&&score<=9){
-			g.drawString(percent+"%! You Should Study The Pokedex", 10, 400);
+
+		else if (score >= 5 && score <= 9) {
+			g.drawString(percent + "%! You Should Study The Pokedex", 10, 400);
 		}
-		
-		else if(score>=10&&score<=14){
-			g.drawString(percent+"%! Good Job, Your A Gym Leader!", 10, 400);
+
+		else if (score >= 10 && score <= 14) {
+			g.drawString(percent + "%! Good Job, You'r A Gym Leader!", 10, 400);
 		}
-		
-		else if(score==15){
-			g.drawString(percent+"%! WOW Your A Pokemon Master!", 10, 400);
+
+		else if (score == 15) {
+			g.drawString(percent + "%! WOW Your A Pokemon Master!", 10, 400);
 		}
 	}
 
@@ -181,11 +186,6 @@ public class LucasGamePanel extends JPanel implements ActionListener, KeyListene
 
 		// Icon icon = new ImageIcon(image);
 		// return new JLabel(icon)/*;
-	}
-
-	private void playSound(String fileName) {
-		AudioClip sound = JApplet.newAudioClip(getClass().getResource(fileName));
-		sound.play();
 	}
 
 	@Override
@@ -237,17 +237,22 @@ public class LucasGamePanel extends JPanel implements ActionListener, KeyListene
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
+
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		// TODO Auto-generated method stub
 		if (currentState == GAME_STATE) {
-			System.out.println(pokemonA);
 			if (e.getX() >= 10 && e.getX() <= 160 && e.getY() >= 250 && e.getY() <= 400) {
 				if (pokemonA == 1) {
-					playSound("correct.wav");
+					sound1.play();
 					score += 1;
 					gamesPlayed++;
 					updateGameState();
 					repaint();
 				} else {
-					playSound("incorrect.wav");
+					sound2.play();
 					gamesPlayed++;
 					updateGameState();
 					repaint();
@@ -256,13 +261,13 @@ public class LucasGamePanel extends JPanel implements ActionListener, KeyListene
 
 			if (e.getX() >= 220 && e.getX() <= 370 && e.getY() >= 250 && e.getY() <= 400) {
 				if (pokemonA == 2) {
-					playSound("correct.wav");
+					sound1.play();
 					score += 1;
 					gamesPlayed++;
 					updateGameState();
 					repaint();
 				} else {
-					playSound("incorrect.wav");
+					sound2.play();
 					gamesPlayed++;
 					updateGameState();
 					repaint();
@@ -271,13 +276,13 @@ public class LucasGamePanel extends JPanel implements ActionListener, KeyListene
 
 			if (e.getX() >= 430 && e.getX() <= 580 && e.getY() >= 250 && e.getY() <= 400) {
 				if (pokemonA == 3) {
-					playSound("correct.wav");
+					sound1.play();
 					score += 1;
 					gamesPlayed++;
 					updateGameState();
 					repaint();
 				} else {
-					playSound("incorrect.wav");
+					sound2.play();
 					gamesPlayed++;
 					updateGameState();
 					repaint();
@@ -286,13 +291,13 @@ public class LucasGamePanel extends JPanel implements ActionListener, KeyListene
 
 			if (e.getX() >= 640 && e.getX() <= 790 && e.getY() >= 250 && e.getY() <= 400) {
 				if (pokemonA == 4) {
-					playSound("correct.wav");
+					sound1.play();
 					score += 1;
 					gamesPlayed++;
 					updateGameState();
 					repaint();
 				} else {
-					playSound("incorrect.wav");
+					sound2.play();
 					gamesPlayed++;
 					updateGameState();
 					repaint();
@@ -302,12 +307,6 @@ public class LucasGamePanel extends JPanel implements ActionListener, KeyListene
 				currentState = END_STATE;
 			}
 		}
-	}
-
-	@Override
-	public void mousePressed(MouseEvent e) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
