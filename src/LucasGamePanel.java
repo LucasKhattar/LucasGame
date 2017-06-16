@@ -29,17 +29,19 @@ public class LucasGamePanel extends JPanel implements ActionListener, KeyListene
 
 	Timer timer;
 	Font titleFont = new Font("Arial", Font.PLAIN, 48);
-	Font titleFont2 = new Font("Arial", Font.PLAIN, 16);
+	Font titleFont2 = new Font("Arial", Font.PLAIN, 20);
 	final int MENU_STATE = 0;
 	final int GAME_STATE = 1;
 	final int END_STATE = 2;
 	int currentState = MENU_STATE;
-	String pokemonName = "Charmander";
-	String pokemonName1 = "charmander";
-	String pokemonName2 = "charmander";
-	String pokemonName3 = "charmander";
-	String pokemonName4 = "charmander";
+	String pokemonName;
+	String pokemonName1;
+	String pokemonName2;
+	String pokemonName3;
+	String pokemonName4;
+	String pokemonG;
 	int pokemonA;
+
 	int score = 0;
 	int gamesPlayed = 0;
 	AudioClip sound1 = JApplet.newAudioClip(getClass().getResource("correct.wav"));
@@ -113,6 +115,22 @@ public class LucasGamePanel extends JPanel implements ActionListener, KeyListene
 		g.drawString("Press SPACE To Play", 175, 300);
 	}
 
+	void drawAwnserState(Graphics g) {
+		drawGameState(g);
+		try {
+			Image pokemonG = ImageIO.read(getClass().getResource("wrong.png"));
+			if (pokemonA != 1) {
+				g.drawImage(pokemonG, 10, 250, 150, 150, this);
+
+			}
+
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
 	void drawGameState(Graphics g) {
 
 		super.paintComponent(g);
@@ -125,7 +143,7 @@ public class LucasGamePanel extends JPanel implements ActionListener, KeyListene
 			g.drawString(pokemonName, 300, 200);
 			g.setFont(titleFont2);
 			g.drawString("Correct : Rounds", 30, 30);
-			g.drawString(score+" : "+gamesPlayed, 73, 50);
+			g.drawString(score + " : " + gamesPlayed, 85, 50);
 			Image pokemon1 = loadImageFromTheInternet("http://img.pokemondb.net/artwork/" + pokemonName1 + ".jpg");
 			Image pokemon2 = loadImageFromTheInternet("http://img.pokemondb.net/artwork/" + pokemonName2 + ".jpg");
 			Image pokemon3 = loadImageFromTheInternet("http://img.pokemondb.net/artwork/" + pokemonName3 + ".jpg");
@@ -252,10 +270,13 @@ public class LucasGamePanel extends JPanel implements ActionListener, KeyListene
 					updateGameState();
 					repaint();
 				} else {
+					pokemonG = pokemonName1;
 					sound2.play();
 					gamesPlayed++;
 					updateGameState();
+//					drawAwnserState(g);
 					repaint();
+					
 				}
 			}
 
@@ -267,6 +288,7 @@ public class LucasGamePanel extends JPanel implements ActionListener, KeyListene
 					updateGameState();
 					repaint();
 				} else {
+					pokemonG = pokemonName2;
 					sound2.play();
 					gamesPlayed++;
 					updateGameState();
@@ -282,6 +304,7 @@ public class LucasGamePanel extends JPanel implements ActionListener, KeyListene
 					updateGameState();
 					repaint();
 				} else {
+					pokemonG = pokemonName3;
 					sound2.play();
 					gamesPlayed++;
 					updateGameState();
@@ -297,6 +320,7 @@ public class LucasGamePanel extends JPanel implements ActionListener, KeyListene
 					updateGameState();
 					repaint();
 				} else {
+					pokemonG = pokemonName4;
 					sound2.play();
 					gamesPlayed++;
 					updateGameState();
