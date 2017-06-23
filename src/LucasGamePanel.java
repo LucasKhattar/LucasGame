@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Date;
 import java.util.Random;
 import java.applet.AudioClip;
 import java.awt.Color;
@@ -25,6 +26,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
+import com.sun.org.apache.xerces.internal.util.SynchronizedSymbolTable;
+
 public class LucasGamePanel extends JPanel implements ActionListener, KeyListener, MouseListener {
 
 	Timer timer;
@@ -32,7 +35,8 @@ public class LucasGamePanel extends JPanel implements ActionListener, KeyListene
 	Font titleFont2 = new Font("Arial", Font.PLAIN, 20);
 	final int MENU_STATE = 0;
 	final int GAME_STATE = 1;
-	final int END_STATE = 2;
+	final int AWNSER_STATE = 2;
+	final int END_STATE = 3;
 	int currentState = MENU_STATE;
 	String pokemonName;
 	String pokemonName1;
@@ -41,6 +45,7 @@ public class LucasGamePanel extends JPanel implements ActionListener, KeyListene
 	String pokemonName4;
 	String pokemonG;
 	int pokemonA;
+	Date awnserTimer;
 
 	int score = 0;
 	int gamesPlayed = 0;
@@ -121,12 +126,30 @@ public class LucasGamePanel extends JPanel implements ActionListener, KeyListene
 			Image pokemonG = ImageIO.read(getClass().getResource("wrong.png"));
 			if (pokemonA != 1) {
 				g.drawImage(pokemonG, 10, 250, 150, 150, this);
-
+			}
+			if (pokemonA != 2) {
+				g.drawImage(pokemonG, 220, 250, 150, 150, this);
+			}
+			if (pokemonA != 3) {
+				g.drawImage(pokemonG, 430, 250, 150, 150, this);
+			}
+			if (pokemonA != 4) {
+				g.drawImage(pokemonG, 640, 250, 150, 150, this);
 			}
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+		System.out.println("OIPOP");
+		if (gamesPlayed <= 14) {
+			if ((new Date().getTime() - awnserTimer.getTime()) >= 2000) {
+				currentState = GAME_STATE;
+				updateGameState();
+				repaint();
+			}
+		} else {
+			currentState = END_STATE;
 		}
 
 	}
@@ -186,13 +209,15 @@ public class LucasGamePanel extends JPanel implements ActionListener, KeyListene
 	}
 
 	LucasGamePanel() {
-		timer = new Timer(1000 / 60, this);
 
 	}
 
 	void startGame() {
 		// timer.start();
 		pokedex.addPokemons();
+		timer = new Timer(100, this);
+		timer.start();
+
 	}
 
 	public Image loadImageFromTheInternet(String imageURL) throws Exception {
@@ -213,7 +238,7 @@ public class LucasGamePanel extends JPanel implements ActionListener, KeyListene
 		if (currentState == MENU_STATE) {
 			updateMenuState();
 		} else if (currentState == GAME_STATE) {
-			updateGameState();
+			// updateGameState();
 		} else if (currentState == END_STATE) {
 			updateEndState();
 		}
@@ -224,6 +249,8 @@ public class LucasGamePanel extends JPanel implements ActionListener, KeyListene
 			drawMenuState(g);
 		} else if (currentState == GAME_STATE) {
 			drawGameState(g);
+		} else if (currentState == AWNSER_STATE) {
+			drawAwnserState(g);
 		} else if (currentState == END_STATE) {
 			drawEndState(g);
 		}
@@ -273,10 +300,10 @@ public class LucasGamePanel extends JPanel implements ActionListener, KeyListene
 					pokemonG = pokemonName1;
 					sound2.play();
 					gamesPlayed++;
-					updateGameState();
-//					drawAwnserState(g);
+					awnserTimer = new Date();
+					currentState = AWNSER_STATE;
 					repaint();
-					
+
 				}
 			}
 
@@ -291,7 +318,8 @@ public class LucasGamePanel extends JPanel implements ActionListener, KeyListene
 					pokemonG = pokemonName2;
 					sound2.play();
 					gamesPlayed++;
-					updateGameState();
+					awnserTimer = new Date();
+					currentState = AWNSER_STATE;
 					repaint();
 				}
 			}
@@ -307,7 +335,8 @@ public class LucasGamePanel extends JPanel implements ActionListener, KeyListene
 					pokemonG = pokemonName3;
 					sound2.play();
 					gamesPlayed++;
-					updateGameState();
+					awnserTimer = new Date();
+					currentState = AWNSER_STATE;
 					repaint();
 				}
 			}
@@ -323,7 +352,8 @@ public class LucasGamePanel extends JPanel implements ActionListener, KeyListene
 					pokemonG = pokemonName4;
 					sound2.play();
 					gamesPlayed++;
-					updateGameState();
+					awnserTimer = new Date();
+					currentState = AWNSER_STATE;
 					repaint();
 				}
 			}
