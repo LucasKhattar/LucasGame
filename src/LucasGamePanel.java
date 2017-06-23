@@ -141,7 +141,6 @@ public class LucasGamePanel extends JPanel implements ActionListener, KeyListene
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println("OIPOP");
 		if (gamesPlayed <= 14) {
 			if ((new Date().getTime() - awnserTimer.getTime()) >= 2000) {
 				currentState = GAME_STATE;
@@ -150,6 +149,7 @@ public class LucasGamePanel extends JPanel implements ActionListener, KeyListene
 			}
 		} else {
 			currentState = END_STATE;
+			repaint();
 		}
 
 	}
